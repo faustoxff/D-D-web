@@ -1,0 +1,293 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dungeon-900 text-parchment-200 font-fantasy min-h-screen;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dungeon-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dungeon-600 rounded;
+  }
+}
+
+.rpg-canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  touch-action: none;
+}
+
+@keyframes rpg-shake {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(-6px, 0, 0); }
+  40% { transform: translate3d(6px, 0, 0); }
+  60% { transform: translate3d(-4px, 0, 0); }
+  80% { transform: translate3d(4px, 0, 0); }
+}
+
+.rpg-shake {
+  animation: rpg-shake 360ms steps(2, end);
+}
+
+.rpg-battle-bg {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.55) 0 7%, transparent 8%),
+    linear-gradient(#78bfe0 0 48%, #7fbf6d 49% 73%, #5b8d4c 74% 100%);
+}
+
+.rpg-battle-bg::before {
+  position: absolute;
+  inset: 46% -10% auto -10%;
+  height: 72px;
+  content: "";
+  background: rgba(246, 222, 179, 0.42);
+  border-top: 3px solid rgba(45, 21, 0, 0.28);
+  border-bottom: 3px solid rgba(45, 21, 0, 0.2);
+}
+
+.rpg-battle-bg::after {
+  position: absolute;
+  right: 8%;
+  bottom: 30%;
+  width: 230px;
+  height: 42px;
+  content: "";
+  background: rgba(45, 21, 0, 0.16);
+  border-radius: 999px;
+}
+
+.rpg-battle-enemy {
+  filter: drop-shadow(0 16px 0 rgba(45, 21, 0, 0.18));
+  transform-origin: center bottom;
+}
+
+.rpg-battle-hero {
+  position: relative;
+  width: 96px;
+  height: 118px;
+  filter: drop-shadow(0 16px 0 rgba(45, 21, 0, 0.2));
+  image-rendering: pixelated;
+}
+
+.rpg-battle-hero-head,
+.rpg-battle-hero-hair,
+.rpg-battle-hero-cape,
+.rpg-battle-hero-body,
+.rpg-battle-hero-boot {
+  position: absolute;
+  border: 3px solid #1a0a00;
+  box-sizing: border-box;
+}
+
+.rpg-battle-hero-head {
+  left: 36px;
+  top: 10px;
+  width: 26px;
+  height: 24px;
+  background: #d8aa72;
+}
+
+.rpg-battle-hero-hair {
+  left: 31px;
+  top: 4px;
+  width: 36px;
+  height: 18px;
+  background: #2b1b0f;
+}
+
+.rpg-battle-hero-cape {
+  left: 24px;
+  top: 34px;
+  width: 52px;
+  height: 62px;
+  background: #4b347d;
+}
+
+.rpg-battle-hero-body {
+  left: 32px;
+  top: 39px;
+  width: 34px;
+  height: 48px;
+  background: #6f4cc3;
+}
+
+.rpg-battle-hero-boot {
+  top: 88px;
+  width: 18px;
+  height: 23px;
+  background: #3f2a18;
+}
+
+.rpg-battle-hero-boot-left { left: 28px; }
+.rpg-battle-hero-boot-right { right: 26px; }
+
+.rpg-battle-platform {
+  position: absolute;
+  bottom: 2px;
+  width: 190px;
+  height: 58px;
+  background: radial-gradient(ellipse at center, rgba(245, 222, 179, 0.85) 0 45%, rgba(154, 104, 52, 0.72) 46% 68%, rgba(45, 21, 0, 0.2) 69% 100%);
+  border: 2px solid rgba(45, 21, 0, 0.55);
+  border-radius: 50%;
+  box-shadow: 0 18px 24px rgba(45, 21, 0, 0.25);
+  transform: perspective(260px) rotateX(58deg);
+}
+
+.rpg-battle-platform-enemy {
+  width: 164px;
+  height: 48px;
+  bottom: -8px;
+}
+
+.rpg-battle-platform-hero {
+  width: 210px;
+  height: 64px;
+  bottom: -2px;
+}
+
+/* ── Title screen & UI motion ───────────────────────────────── */
+.font-title {
+  font-family: "Cinzel", "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes fade-down {
+  from { opacity: 0; transform: translateY(-24px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes shine {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+
+@keyframes shake-x {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(9px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(4px); }
+}
+
+.title-logo {
+  background: linear-gradient(100deg, #9a6b08 0%, #e8c97a 22%, #fff8e1 38%, #e8c97a 54%, #b8860b 78%, #9a6b08 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 7s linear infinite;
+  filter: drop-shadow(0 4px 28px rgba(245, 150, 50, 0.5)) drop-shadow(0 0 2px rgba(0, 0, 0, 0.8));
+  letter-spacing: 0.04em;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: btn-sweep 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes btn-sweep {
+  0%, 55% { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+
+@keyframes toast-in {
+  0% { opacity: 0; transform: translateY(-14px) scale(0.9); }
+  8% { opacity: 1; transform: translateY(0) scale(1.06); }
+  14% { transform: scale(1); }
+  82% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+@keyframes lvl-pop {
+  0% { opacity: 0; transform: scale(0.3); }
+  14% { opacity: 1; transform: scale(1.12); }
+  22% { transform: scale(1); }
+  82% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.05) translateY(-14px); }
+}
+
+@keyframes lvl-flash {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes spark {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.2); }
+}
+
+@keyframes intro-fade {
+  0% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes low-hp {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-60px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(60px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes dice-spin {
+  0% { transform: rotate(0deg) scale(0.8); }
+  100% { transform: rotate(720deg) scale(1); }
+}
+
+@keyframes dice-land {
+  0% { transform: scale(1.5); }
+  60% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+
+@keyframes battle-flash {
+  0% { opacity: 0.95; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes battle-title {
+  0% { opacity: 0; transform: scale(2.4); letter-spacing: 0.8em; }
+  18% { opacity: 1; transform: scale(1); letter-spacing: 0.25em; }
+  72% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.15); }
+}
+
+@keyframes dmg-float {
+  0% { opacity: 0; transform: translate(-50%, 10px) scale(0.5); }
+  15% { opacity: 1; transform: translate(-50%, -14px) scale(1.25); }
+  30% { transform: translate(-50%, -22px) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -80px) scale(1); }
+}
+
+@keyframes toast-pop {
+  0% { opacity: 0; transform: translateY(14px) scale(0.6); }
+  70% { transform: translateY(0) scale(1.1); }
+  100% { opacity: 1; transform: none; }
+}
